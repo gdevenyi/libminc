@@ -268,7 +268,9 @@ if(LIBMINC_NIFTI_SUPPORT)
   endif()
 
   add_executable(nifti_readback nifti_readback.c)
-  target_link_libraries(nifti_readback ${LIBMINC_LIBRARY} NIFTI::niftiio)
+  # LIBMINC::nifti, as a consumer would link it: the NIfTI code comes from
+  # libminc itself, not from a second copy of libniftiio.a.
+  target_link_libraries(nifti_readback LIBMINC::nifti)
 
   # Functional guard: write a .nii via nifti_clib, read it back via libminc.
   # Must pass before AND after mangling (proves the rename kept NIfTI working).
